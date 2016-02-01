@@ -14,11 +14,14 @@
 ##############################################################################
 
 
-def plot_last_one(field='pe1_image_light_field')
-    ''' function to pull out and plot last scan
+def plot_scan(header, field='pe1_image_light_field')
+    ''' function to pull out and plot data from header specified
     
     Parameters
     ----------
+    header : obj
+        header object from DataBroker
+
     field : str
         name of filed you want to pull image from. default is pe1_image_lightfield
     
@@ -30,8 +33,6 @@ def plot_last_one(field='pe1_image_light_field')
     from tifffile import *
    
     # FIXME - make sure both dark and light image are in the same event 
-    header = db[-1]
-    
     # FIXME - need a proper exception handler when data missing
     event = get_events(header, fill=False)
     
@@ -50,4 +51,41 @@ def plot_last_one(field='pe1_image_light_field')
     plt.imshoe(plot_img)
     plt.show()
     
+
+def save_tif(header, f_name=None, dark_correct=True):
+    ''' function to save (dark corrected) tiff
     
+    Parameters
+    ----------
+    header : obj
+        header object from DataBroker
+    
+    f_name : str
+        file name to this tiff
+
+    dark_correct : bool
+        option to apply dark correction
+
+    
+    Returns
+    -------
+    
+    '''
+    if type(list(header))[1] == str:
+        header_list = list()
+        header_list.append(header)
+    else:
+        header_list = header
+
+    if not f_name:
+        # FIXME - use metadata in header
+        print('use metadata from header')
+
+    if dark_correct:
+        # FIXME - perfom dark correction
+        print('corect data with dark images')
+
+    for header in header_list:
+        prinr('Plotting and saving your data ....')
+        # FIXME - using tiff exporter or tifffile ?
+            
